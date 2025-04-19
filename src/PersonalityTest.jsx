@@ -6,8 +6,7 @@ const KNOWN_TYPES = Object.keys(results);
 
 const getClosestResultType = (type) => {
   if (results[type]) return type;
-  // fallback to default if not found
-  return "IYLP"; // default fallback type
+  return "IYLP"; // fallback
 };
 
 export default function PersonalityTest() {
@@ -40,29 +39,11 @@ export default function PersonalityTest() {
   const avg = (arr, idxs) => idxs.reduce((sum, i) => sum + arr[i], 0) / idxs.length;
 
   if (resultType) {
-    const result = results[resultType] || {};
+    const result = results[resultType];
     return (
-      <div className="p-6 max-w-3xl mx-auto">
-        <h1 className="text-2xl font-bold mb-4">당신의 유형: {resultType} – {result.title}</h1>
-        <p className="text-lg mb-2">{result.summary}</p>
-        <div className="grid grid-cols-2 gap-4 text-sm mt-6">
-          <div>
-            <h2 className="font-semibold">강점</h2>
-            <ul className="list-disc list-inside">
-              {result.strengths?.map((s, i) => <li key={i}>{s}</li>)}
-            </ul>
-          </div>
-          <div>
-            <h2 className="font-semibold">약점</h2>
-            <ul className="list-disc list-inside">
-              {result.weaknesses?.map((w, i) => <li key={i}>{w}</li>)}
-            </ul>
-          </div>
-        </div>
-        <div className="mt-6">
-          <h2 className="font-semibold">추천 활동 및 환경</h2>
-          <p>{result.recommendation}</p>
-        </div>
+      <div className="p-6 max-w-4xl mx-auto whitespace-pre-wrap text-sm leading-relaxed">
+        <h1 className="text-xl font-bold mb-4">당신의 유형: {resultType}</h1>
+        <div>{result?.rawText}</div>
       </div>
     );
   }
