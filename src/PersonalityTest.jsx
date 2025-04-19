@@ -6,7 +6,7 @@ const KNOWN_TYPES = Object.keys(results);
 
 const getClosestResultType = (type) => {
   if (results[type]) return type;
-  return "IYLP"; // fallback
+  return "IYLP";
 };
 
 export default function PersonalityTest() {
@@ -41,9 +41,10 @@ export default function PersonalityTest() {
   if (resultType) {
     const result = results[resultType];
     return (
-      <div className="p-6 max-w-4xl mx-auto whitespace-pre-wrap text-sm leading-relaxed">
-        <h1 className="text-xl font-bold mb-4">당신의 유형: {resultType}</h1>
-        <div>{result?.rawText}</div>
+      <div className="p-6 max-w-5xl mx-auto overflow-auto">
+        <pre className="whitespace-pre-wrap text-sm leading-relaxed">
+{result?.rawText}
+        </pre>
       </div>
     );
   }
