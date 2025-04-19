@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import questions from './questions';
 import results from './results';
 
+const KNOWN_TYPES = Object.keys(results);
+
+const getClosestResultType = (type) => {
+  if (results[type]) return type;
+  // fallback to default if not found
+  return "IYLP"; // default fallback type
+};
+
 export default function PersonalityTest() {
   const [answers, setAnswers] = useState(Array(60).fill(0));
   const [step, setStep] = useState(0);
@@ -20,12 +28,13 @@ export default function PersonalityTest() {
     const goal = avg(scores, [...Array(15).keys()].map(i => i + 15));
     const energy = avg(scores, [...Array(15).keys()].map(i => i + 30));
     const awareness = avg(scores, [...Array(15).keys()].map(i => i + 45));
-    const type =
+    const rawType =
       (emotion >= 3.5 ? 'E' : 'I') +
       (goal >= 3.5 ? 'X' : 'Y') +
       (energy >= 3.5 ? 'R' : 'P') +
       (awareness >= 3.5 ? 'P' : 'N');
-    setResultType(type);
+    const fixedType = getClosestResultType(rawType);
+    setResultType(fixedType);
   };
 
   const avg = (arr, idxs) => idxs.reduce((sum, i) => sum + arr[i], 0) / idxs.length;
